@@ -1,4 +1,4 @@
-# PART A: the role, locked to your repo — "who may wear this costume"
+# PART A: the role, locked to your repo
 resource "aws_iam_role" "github_deploy" {
   name = "github-actions-deploy"
 
@@ -15,14 +15,14 @@ resource "aws_iam_role" "github_deploy" {
           "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
         }
         StringLike = {
-          "token.actions.githubusercontent.com:sub" = "repo:sahmeder/cloud-project:*"
+          "token.actions.githubusercontent.com:sub" = "repo:sahmeder@55019347/cloud-project@1391113861:*"
         }
       }
     }]
   })
 }
 
-# PART B: what the costume can do — narrow permissions (note: no EC2)
+# PART B: what the role can do
 resource "aws_iam_role_policy" "github_deploy_permissions" {
   name = "deploy-permissions"
   role = aws_iam_role.github_deploy.id
@@ -34,14 +34,14 @@ resource "aws_iam_role_policy" "github_deploy_permissions" {
       Action = [
         "s3:*",
         "cloudfront:*",
-        "dynamodb:*"
+        "dynamodb:*",
+        "iam:*"
       ]
       Resource = "*"
     }]
   })
 }
 
-# Print the role's identifier — needed for the GitHub pipeline in Phase 4
 output "github_deploy_role_arn" {
   value = aws_iam_role.github_deploy.arn
 }
