@@ -1,0 +1,19 @@
+# Terraform state — never commit (can contain secrets; lives in S3)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform working directory — downloaded providers, re-fetched by 'terraform init'
+**/.terraform/*
+.terraform.lock.hcl
+
+# Variable files that may hold secrets
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Mac system files
+.DS_Store
